@@ -2,7 +2,7 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
       ./hardware-configuration.nix
     ];
   
@@ -13,11 +13,15 @@
     extraGroups = ["wheel" "networkmanager"];
   };
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
+  };
 
-  networking.hostName = "thinkpad"; # Define your hostname.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking = {
+    hostName = "thinkpad";
+    networkmanager.enable = true;
+  };
 
   time.timeZone = "Europe/Copenhagen";
 
@@ -27,18 +31,23 @@
     useXkbConfig = true; # use xkbOptions in tty.
   };
 
-  services.xserver.enable = true;
-  services.xserver.layout = "dk";
-  services.xserver.xkbOptions = "caps:escape";
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services = {
+    xserver = {
+      enable = true;
+      layout = "dk";
+      xkbOptions = "caps:escape";
+      displayManager.gdm.enable = true;
+      desktopManager.gnome.enable = true;
+      libinput.enable = true;
+    };
+
+    openssh.enable = true;
+  };
 
   sound.enable = true;
   hardware.pulseaudio.enable = true;
-  services.xserver.libinput.enable = true;
 
   nixpkgs.config.allowUnfree = true;
-
   environment.systemPackages = with pkgs; [
     vim
     git
@@ -53,9 +62,8 @@
     keepassxc
   ];
 
-  services.openssh.enable = true;
-  system.copySystemConfiguration = true;
-  system.stateVersion = "22.11"; # Did you read the comment?
-
+  system = {
+    copySystemConfiguration = true;
+    stateVersion = "22.11";
+  };
 }
-
