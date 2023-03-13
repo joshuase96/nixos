@@ -45,12 +45,21 @@
   };
 
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  hardware = {
+    pulseaudio.enable = true;
+    opengl = {
+      enable = true;
+      extraPackages = with pkgs; [
+        vaapiIntel
+      ];
+    };
+  };
 
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
     vim
     git
+    cmus
     wget
     firefox
     gnome.gnome-tweaks
@@ -60,6 +69,7 @@
     vscode
     gimp
     keepassxc
+    libreoffice
   ];
 
   system = {
