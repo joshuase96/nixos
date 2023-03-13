@@ -72,6 +72,13 @@
     libreoffice
   ];
 
+  virtualisation = {
+    libvirtd = {
+      enable = true;
+      qemu.ovmf.enable = true;
+    };
+  };
+
   system = {
     copySystemConfiguration = true;
     stateVersion = "22.11";
